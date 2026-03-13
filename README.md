@@ -12,14 +12,15 @@
 Разработать прототип программы по распознаванию рукописного текста, который позволяет учащимся хранить информацию в удобном для них цифровом формате.
 
 ## Технологии
-- Frontend: tilda.cc
-- Backend: python, tesseract
-- База данных: SQLite
-- Инструменты: GitHub
+- Frontend: ReactNative, 
+- Backend: Python, Tesseract, Java
+- База данных: PostgreSQL
+- Инструменты: GitHub, XCode, Supabase.com
 
 ## Как запустить проект
 1. Клонировать репозиторий: git clone [https://github.com/dag317/scripto.git]
-2. ...
+2. В папке с проектом в терминале написать npx expo start --clear
+3. Скачать Android Studio или XCode, если запускаете через компьютер. Скачать Expo Go на телефон и сканировать XR-код
 
 ## Ссылки
 - ...
