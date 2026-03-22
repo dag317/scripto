@@ -51,6 +51,7 @@ export default function LoginScreen({ navigation }: Props) {
     } else {
       setError('Ошибка при логине');
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Сетевая ошибка. Попробуйте позже.');
     }

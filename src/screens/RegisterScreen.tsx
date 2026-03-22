@@ -44,6 +44,7 @@ export default function RegisterScreen({ navigation }: Props) {
       }
 
       navigation.navigate('Login');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setError('Ошибка сети. Попробуйте позже');
     }
