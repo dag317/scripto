@@ -6,7 +6,7 @@ export const COLORS = {
   grey: '#1A1A1A',
   textGrey: '#888',
   white: '#FFFFFF',
-  accent: '#2A5CFF', // Твой синий
+  accent: '#2A5CFF',
 };
 
 export const globalStyles = StyleSheet.create({
