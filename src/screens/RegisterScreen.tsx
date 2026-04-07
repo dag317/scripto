@@ -14,20 +14,40 @@ type Props = NativeStackScreenProps<AuthStackParamList, 'Register'>;
 export default function RegisterScreen({ navigation }: Props) {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
+
+  const [emailError, setEmailError] = useState<string>('');
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [serverError, setServerError] = useState<string>('');
+
+  // 📧 Валидация email
+  const validateEmail = (value: string): string => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!value) return '';
+    if (!emailRegex.test(value)) return 'Введите корректный email';
+
+    return '';
+  };
+
+  // 🔒 Валидация пароля
+  const validatePassword = (value: string): string => {
+    if (!value) return '';
+    if (value.length < 6) return 'Минимум 6 символов';
+
+    return '';
+  };
 
   const handleRegister = async (): Promise<void> => {
-    setError('');
+    const emailValidation = validateEmail(email);
+    const passwordValidation = validatePassword(password);
 
-    if (!email.includes('@')) {
-      setError('Введите корректный email');
+    if (emailValidation || passwordValidation) {
+      setEmailError(emailValidation);
+      setPasswordError(passwordValidation);
       return;
     }
 
-    if (password.length < 6) {
-      setError('Пароль должен быть не менее 6 символов');
-      return;
-    }
+    setServerError('');
 
     try {
       const response = await fetch('http://192.168.1.6:3000/auth/register', {
@@ -39,14 +59,13 @@ export default function RegisterScreen({ navigation }: Props) {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || 'Ошибка регистрации');
+        setServerError(data.message || 'Ошибка регистрации');
         return;
       }
 
       navigation.navigate('Login');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      setError('Ошибка сети. Попробуйте позже');
+      setServerError('Ошибка сети. Попробуйте позже');
     }
   };
 
@@ -55,25 +74,44 @@ export default function RegisterScreen({ navigation }: Props) {
       <Text style={styles.title}>Scripto</Text>
 
       <View style={styles.inputContainer}>
+        {/* 📧 EMAIL */}
         <TextInput
           placeholder="Email"
           value={email}
-          onChangeText={setEmail}
-          style={styles.input}
+          onChangeText={(text) => {
+            setEmail(text);
+            setEmailError(validateEmail(text));
+          }}
+          style={[
+            styles.input,
+            emailError ? styles.inputError : null,
+          ]}
           placeholderTextColor="#888"
         />
+
         <View style={styles.divider} />
+
+        {/* 🔒 PASSWORD */}
         <TextInput
           placeholder="Пароль"
           secureTextEntry
           value={password}
-          onChangeText={setPassword}
-          style={styles.input}
+          onChangeText={(text) => {
+            setPassword(text);
+            setPasswordError(validatePassword(text));
+          }}
+          style={[
+            styles.input,
+            passwordError ? styles.inputError : null,
+          ]}
           placeholderTextColor="#888"
         />
       </View>
 
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {/* Ошибки под полями */}
+      {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
+      {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+      {serverError ? <Text style={styles.errorText}>{serverError}</Text> : null}
 
       <TouchableOpacity style={styles.mainButton} onPress={handleRegister}>
         <Text style={styles.mainText}>Зарегистрироваться</Text>
@@ -110,13 +148,16 @@ const styles = StyleSheet.create({
     padding: 15,
     fontSize: 16,
   },
+  inputError: {
+    borderColor: 'red',
+  },
   divider: {
     height: 1,
     backgroundColor: '#ccc',
   },
   errorText: {
     color: 'red',
-    marginBottom: 10,
+    marginBottom: 5,
     textAlign: 'center',
   },
   mainButton: {
@@ -125,6 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 15,
     alignItems: 'center',
+    marginTop: 10,
     marginBottom: 20,
   },
   mainText: {
