@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Scripto</string>
+    <string name="scripto">Scripto</string>
+    <string name="userEmailHint">Введите почту</string>
+    <string name="userPasswordHint">Введите пароль</string>
+    <string name="registerButtonText">Регистрация</string>
+</resources>
