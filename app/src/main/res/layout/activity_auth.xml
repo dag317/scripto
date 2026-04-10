@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#201E28"
-    tools:context=".MainActivity">
+    tools:context=".AuthActivity">
 
     <TextView
         android:id="@+id/textViewScripto"
@@ -14,13 +14,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="170dp"
         android:fontFamily="sans-serif"
-        android:text="@string/scripto"
+        android:text="Войдите в аккаунт"
         android:textColor="@android:color/white"
         android:textSize="40sp" />
 
 
     <EditText
-        android:id="@+id/userEmailReg"
+        android:id="@+id/userEmailLogin"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -33,7 +33,7 @@
         android:textColor="#fdfdfd"/>
 
     <EditText
-        android:id="@+id/userPasswordReg"
+        android:id="@+id/userPasswordLogin"
         android:layout_width="220dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -46,23 +46,23 @@
         android:textColor="#fdfdfd"/>
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/buttonLogin"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="@string/registerButtonText"
+        android:text="Войти"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:textStyle="bold"
         android:backgroundTint="#afa3" />
 
     <TextView
-        android:id="@+id/linkToAuth"
+        android:id="@+id/linkToReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:fontFamily="sans-serif"
-        android:text="Войти в аккаунт"
+        android:text="Создать аккаунт"
         android:textColor="@android:color/white"
         android:textSize="17sp" />
 

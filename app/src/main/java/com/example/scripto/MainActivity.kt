@@ -1,8 +1,11 @@
 package com.example.scripto
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 
@@ -11,9 +14,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val userEmail: EditText = findViewById(R.id.userEmailLogin)
-        val userPassword: EditText = findViewById(R.id.userPasswordLogin)
+        val userEmail: EditText = findViewById(R.id.userEmailReg)
+        val userPassword: EditText = findViewById(R.id.userPasswordReg)
         val registerButton: Button = findViewById(R.id.buttonRegister)
+        val linkToAuth: TextView = findViewById(R.id.linkToAuth)
 
         registerButton.setOnClickListener {
             val email = userEmail.text.toString().trim()
@@ -32,5 +36,16 @@ class MainActivity : ComponentActivity() {
                 userPassword.text.clear()
             }
         }
+
+        linkToAuth.setOnClickListener {
+            try {
+                val intent = Intent(this, AuthActivity::class.java)
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("MY_ERROR", "Ошибка перехода: ${e.message}", e)
+            }
+        }
+
+
     }
 }

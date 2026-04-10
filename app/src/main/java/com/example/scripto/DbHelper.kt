@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?) :
-    SQLiteOpenHelper(context, "scripto", factory, 1) {
+    SQLiteOpenHelper(context, "scripto", factory, 2) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         val query = "CREATE TABLE users (id INT PRIMARY KEY, email TEXT, password TEXT)"
@@ -29,4 +29,10 @@ class DbHelper(val context: Context, val factory: SQLiteDatabase.CursorFactory?)
         db.close()
     }
 
+    fun getUser(email: String, password: String) : Boolean{
+        val db = this.readableDatabase
+
+        val result = db.rawQuery("SELECT * FROM users WHERE email = '$email' AND password = '$password'", null)
+        return result.moveToFirst()
+    }
 }
