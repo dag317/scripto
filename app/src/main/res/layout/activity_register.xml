@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F6FA"
+    android:gravity="center"
+    android:padding="20dp"
+    tools:context=".RegisterActivity">
+
+    <!-- Карточка -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:elevation="10dp"
+        android:layout_margin="10dp">
+
+        <!-- Заголовок -->
+        <TextView
+            android:id="@+id/textViewScripto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/app_name"
+            android:textColor="#1F1F1F"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/userEmailReg"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:autofillHints="emailAddress"
+            android:hint="@string/userEmailHint"
+            android:inputType="textEmailAddress"
+            android:background="@android:drawable/edit_text"
+            android:paddingHorizontal="12dp"
+            android:textColor="#000"
+            android:textColorHint="#999"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Пароль -->
+        <EditText
+            android:id="@+id/userPasswordReg"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:autofillHints="password"
+            android:hint="@string/userPasswordHint"
+            android:inputType="textPassword"
+            android:background="@android:drawable/edit_text"
+            android:paddingHorizontal="12dp"
+            android:textColor="#000"
+            android:textColorHint="#999"/>
+
+        <!-- Кнопка регистрации -->
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="@string/registerButtonText"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#3F51B5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <!-- Ссылка на вход -->
+    <TextView
+        android:id="@+id/linkToAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toLogin"
+        android:textSize="16sp"
+        android:textColor="#3F51B5"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"/>
+</LinearLayout>

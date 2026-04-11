@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Scripto</string>
-    <string name="scripto">Scripto</string>
-    <string name="userEmailHint">Введите почту</string>
-    <string name="userPasswordHint">Введите пароль</string>
+    <string name="userEmailHint">Email</string>
+    <string name="userPasswordHint">Пароль</string>
     <string name="registerButtonText">Регистрация</string>
+    <string name="toLogin">Войти в аккаунт</string>
+    <string name="login">Вход</string>
+    <string name="orSlash">или</string>
+    <string name="loginGoogle">Войти через Google</string>
+    <string name="toRegister">Создать аккаунт</string>
+    <string name="forgotPassword">Забыли пароль?</string>
 </resources>

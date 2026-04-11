@@ -1,69 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#201E28"
-    tools:context=".AuthActivity">
+    android:background="#F5F6FA"
+    android:gravity="center"
+    android:padding="20dp">
 
-    <TextView
-        android:id="@+id/textViewScripto"
-        android:layout_width="wrap_content"
+    <!-- Карточка -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="170dp"
-        android:fontFamily="sans-serif"
-        android:text="Войдите в аккаунт"
-        android:textColor="@android:color/white"
-        android:textSize="40sp" />
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:elevation="10dp"
+        android:layout_margin="10dp">
 
+        <!-- Заголовок -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:textColor="#1F1F1F"/>
 
-    <EditText
-        android:id="@+id/userEmailLogin"
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:autofillHints="exapmle@mail.com"
-        android:ems="10"
-        android:layout_marginTop="10dp"
-        android:hint="@string/userEmailHint"
-        android:inputType="textEmailAddress"
-        android:textColorHint="#6a6a6a"
-        android:textColor="#fdfdfd"/>
+        <!-- Email -->
+        <EditText
+            android:id="@+id/userEmailLogin"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:autofillHints="emailAddress"
+            android:hint="@string/userEmailHint"
+            android:inputType="textEmailAddress"
+            android:background="@android:drawable/edit_text"
+            android:paddingHorizontal="12dp"
+            android:layout_marginBottom="12dp"/>
 
-    <EditText
-        android:id="@+id/userPasswordLogin"
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:autofillHints="exapmle@mail.com"
-        android:ems="10"
-        android:layout_marginTop="10dp"
-        android:hint="@string/userPasswordHint"
-        android:inputType="textPassword"
-        android:textColorHint="#6a6a6a"
-        android:textColor="#fdfdfd"/>
+        <!-- Пароль -->
+        <EditText
+            android:id="@+id/userPasswordLogin"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:autofillHints="password"
+            android:hint="@string/userPasswordHint"
+            android:inputType="textPassword"
+            android:background="@android:drawable/edit_text"
+            android:paddingHorizontal="12dp"/>
 
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Войти"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:textStyle="bold"
-        android:backgroundTint="#afa3" />
+        <!-- Забыл пароль -->
+        <TextView
+            android:id="@+id/forgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forgotPassword"
+            android:textSize="14sp"
+            android:textColor="#3F51B5"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"/>
 
+        <!-- Кнопка входа -->
+        <Button
+            android:id="@+id/buttonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="@string/login"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#3F51B5"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"/>
+
+        <!-- Разделитель -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#DDD"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/orSlash"
+                android:layout_marginHorizontal="10dp"
+                android:textColor="#999"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="#DDD"/>
+        </LinearLayout>
+
+        <!-- Google -->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="@string/loginGoogle"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#000000"/>
+    </LinearLayout>
+
+    <!-- Регистрация -->
     <TextView
         android:id="@+id/linkToReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        android:fontFamily="sans-serif"
-        android:text="Создать аккаунт"
-        android:textColor="@android:color/white"
-        android:textSize="17sp" />
-
+        android:text="@string/toRegister"
+        android:textSize="16sp"
+        android:textColor="#3F51B5"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"/>
 </LinearLayout>

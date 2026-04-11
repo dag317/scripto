@@ -16,14 +16,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Scripto">
         <activity
-            android:name=".AuthActivity"
+            android:name=".ResetPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".OtpActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-
         <activity
-            android:name=".MainActivity"
+            android:name=".ForgotPasswordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".AuthActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Scripto">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
