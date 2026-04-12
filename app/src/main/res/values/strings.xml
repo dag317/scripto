@@ -9,4 +9,15 @@
     <string name="loginGoogle">Войти через Google</string>
     <string name="toRegister">Создать аккаунт</string>
     <string name="forgotPassword">Забыли пароль?</string>
+    <string name="forgotPasswordHeader">Восстановление пароля</string>
+    <string name="forgotPasswordText">Введите email. Если аккаунт существует, мы отправим код подтверждения.</string>
+    <string name="sixDigitCodeHint">Шестизначный код</string>
+    <string name="cancelText">Отмена</string>
+    <string name="newPasswordHint">Новый пароль</string>
+    <string name="repeatPasswordHint">Повторите пароль</string>
+    <string name="saveText">Сохранить</string>
+    <string name="sendCodeText">Отправить код</string>
+    <string name="otpActivationHeader">Введите код</string>
+    <string name="confirmText">Подтвердить</string>
+    <string name="sendCodeAgain">Отправить снова</string>
 </resources>

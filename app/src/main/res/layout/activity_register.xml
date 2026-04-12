@@ -7,7 +7,7 @@
     android:background="#F5F6FA"
     android:gravity="center"
     android:padding="20dp"
-    tools:context=".RegisterActivity">
+    tools:context=".screens.RegisterActivity">
 
     <!-- Карточка -->
     <LinearLayout
