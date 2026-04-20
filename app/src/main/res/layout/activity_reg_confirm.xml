@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:background="@android:color/white">
+
+    <!-- Иконка письма (можно использовать стандартный Android drawable или картинку) -->
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/mailicon"
+        android:src="@android:drawable/ic_dialog_email"
+        app:tint="#3F51B5"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/readyText"
+        android:textColor="#212121"
+        android:textSize="26sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="12dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/VerifyDecription"
+        android:textSize="16sp"
+        android:textColor="#757575"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/toLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:text="@string/toLogin"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:backgroundTint="#3F51B5"
+        android:textColor="@android:color/white"
+        app:cornerRadius="12dp"/>
+
+</LinearLayout>

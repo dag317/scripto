@@ -11,6 +11,7 @@ import androidx.activity.ComponentActivity
 import com.example.scripto.R
 import com.example.scripto.database.ApiResponse
 import com.example.scripto.database.RegisterRequest
+import com.example.scripto.database.RegisterResponse
 import com.example.scripto.database.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -45,22 +46,27 @@ class RegisterActivity : ComponentActivity() {
                 return@setOnClickListener
             }
 
-            RetrofitClient.api.register(RegisterRequest(email, password)).enqueue(object : Callback<ApiResponse> {
+            RetrofitClient.api.register(RegisterRequest(email, password)).enqueue(object : Callback<RegisterResponse> {
                 override fun onResponse(
-                    call: Call<ApiResponse>,
-                    response: Response<ApiResponse>
+                    call: Call<RegisterResponse>,
+                    response: Response<RegisterResponse>
                 ) {
                     if (response.isSuccessful) {
-
-                        Toast.makeText(this@RegisterActivity, "Пользователь создан", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this@RegisterActivity, RegConfirmActivity::class.java))
                         userEmail.text.clear()
                         userPassword.text.clear()
-                        startActivity(Intent(this@RegisterActivity, AuthActivity::class.java))
+                        finish()
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Ошибка регистрации", Toast.LENGTH_SHORT).show()
+                        val errorText = response.errorBody()?.string() ?: ""
+
+                        if (response.code() == 400 && errorText.contains("User already exists")) {
+                            userEmail.setError("Почта уже занята")
+                        } else {
+                            Toast.makeText(this@RegisterActivity, "Ошибка: $errorText", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-                override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                     Toast.makeText(this@RegisterActivity, "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })

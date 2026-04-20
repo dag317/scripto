@@ -1,5 +1,6 @@
 package com.example.scripto.screens
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -15,6 +16,7 @@ import com.example.scripto.database.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class ForgotPasswordActivity : AppCompatActivity() {
 
@@ -32,6 +34,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
+
         sendBtn.setOnClickListener {
             val email = emailInput.text.toString().trim()
 
@@ -49,12 +52,19 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(this@ForgotPasswordActivity, "Код отправлен", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this@ForgotPasswordActivity, OtpActivity::class.java)
-                        intent.putExtra("email", email) // важно!
+                        intent.putExtra("email", email)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this@ForgotPasswordActivity, "Ошибка сервера", Toast.LENGTH_SHORT).show()
+                        val errorBody = response.errorBody()?.string() ?: ""
+
+                        if (response.code() == 404) {
+                            emailInput.error = "Пользователь с такой почтой не найден"
+                        } else {
+                            Toast.makeText(this@ForgotPasswordActivity, "Ошибка: $errorBody", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
+
                 override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                     Toast.makeText(this@ForgotPasswordActivity, "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
                 }

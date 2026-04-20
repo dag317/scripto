@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-
+import {ACCESS_SECRET} from '../services/authService'
 export const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
 
@@ -8,7 +8,7 @@ export const authMiddleware = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'SECRET_KEY');
+    const decoded = jwt.verify(token, ACCESS_SECRET);
     req.user = decoded;
     next();
   } catch {

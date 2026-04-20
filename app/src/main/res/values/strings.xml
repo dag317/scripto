@@ -20,4 +20,8 @@
     <string name="otpActivationHeader">Введите код</string>
     <string name="confirmText">Подтвердить</string>
     <string name="sendCodeAgain">Отправить снова</string>
+    <string name="RegConfirmHeader">Подтвердите почту</string>
+    <string name="mailicon">MailIcon</string>
+    <string name="readyText">Почти готово!</string>
+    <string name="VerifyDecription">Мы отправили ссылку для подтверждения на ваш email. Пожалуйста, проверьте почту, чтобы завершить регистрацию.</string>
 </resources>
