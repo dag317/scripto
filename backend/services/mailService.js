@@ -44,7 +44,7 @@ export const sendOtpEmail = async (email, otp) => {
 
 
 export const sendVerificationEmail = async (email, token) => {
-  const url = `http://192.168.1.7:3000/auth/verify?token=${token}`;
+  const url = `https://scripto-app.ru${token}`;
 
   const mailOptions = {
     from: '"Scripto" <avdahana@gmail.com>',
