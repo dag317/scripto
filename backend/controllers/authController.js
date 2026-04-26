@@ -126,3 +126,12 @@ export const verifyEmail = async (req, res) => {
     `);
   }
 };
+
+export const mainScreen = async (req, res) => {
+    res.send(`
+        <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+            <h1 style="color: #3F51B5;">Scripto API</h1>
+            <p>Сервер работает исправно ✅</p>
+        </div>
+    `);
+};
