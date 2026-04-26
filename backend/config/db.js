@@ -1,7 +1,7 @@
 import mysql from 'mysql2/promise';
 
 export const db = mysql.createPool({
-  host: 'localhost',
+  host: '127.0.0.1',
   user: 'root',
   password: 'AN0660193s',
   database: 'scripto_db'
