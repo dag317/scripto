@@ -9,7 +9,6 @@ router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 router.post("/verify-otp", verifyOtp);
 router.get("/verify", verifyEmail);
-router.get("/", mainScreen);
 router.post('/google', googleAuth);
 
 export default router;
