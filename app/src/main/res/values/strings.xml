@@ -24,4 +24,8 @@
     <string name="mailicon">MailIcon</string>
     <string name="readyText">Почти готово!</string>
     <string name="VerifyDecription">Мы отправили ссылку для подтверждения на ваш email. Пожалуйста, проверьте почту, чтобы завершить регистрацию.</string>
+    <string name="deauth">Выйти из аккаунта</string>
+    <string name="Scan">Сканировать конспект</string>
+    <string name="CamIco">Иконка камеры</string>
+    <string name="scripto">Scripto</string>
 </resources>

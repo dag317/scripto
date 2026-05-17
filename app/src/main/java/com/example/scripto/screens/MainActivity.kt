@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
         val scanBtn = findViewById<Button>(R.id.scanBtn)
 
-        // Логика выхода
         logoutBtn.setOnClickListener {
             val prefs = getSharedPreferences("auth", MODE_PRIVATE)
             prefs.edit { clear() }
@@ -35,15 +34,12 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        // Логика тестирования OCR
         scanBtn.setOnClickListener {
             Toast.makeText(this, "Отправка на сервер...", Toast.LENGTH_SHORT).show()
 
-            // 1. Берем фотку из папки assets
             val testFile = getFileFromAssets("test_notes.jpg")
 
             if (testFile != null && testFile.exists()) {
-                // 2. Стреляем в сервер
                 sendImageToOcr(testFile)
             } else {
                 Toast.makeText(this, "Файл test_notes.jpg не найден в assets!", Toast.LENGTH_LONG).show()
@@ -51,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Вспомогательная функция: копирует файл из папки assets во внутреннюю память, чтобы передать в Retrofit
     private fun getFileFromAssets(fileName: String): File? {
         return try {
             val cacheFile = File(cacheDir, fileName)
@@ -67,30 +62,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Отправка файла на Node.js сервер
     private fun sendImageToOcr(imageFile: File) {
         val requestFile = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
         val body = MultipartBody.Part.createFormData("file", imageFile.name, requestFile)
 
         lifecycleScope.launch {
             try {
-                // Вызываем твой рабочий Retrofit клиент
                 val response = RetrofitClient.api.uploadOcrImage(body)
 
-                // Смотрим результат в консоли Android Studio (Logcat)
-                Log.d("OCR_TEST_RESULT", "=== СЫРОЙ ТЕКСТ ===")
-                Log.d("OCR_TEST_RESULT", response.raw_text)
-
-                Log.d("OCR_TEST_RESULT", "=== ИСПРАВЛЕННЫЙ ТЕКСТ ===")
-                Log.d("OCR_TEST_RESULT", response.corrected_text)
-
-                // Выводим юзеру тост-уведомление
-                Toast.makeText(this@MainActivity, "Распознано! Ищи текст в Logcat по тегу OCR_TEST_RESULT", Toast.LENGTH_LONG).show()
+                showResultDialog(response.corrected_text)
 
             } catch (e: Exception) {
                 Log.e("OCR_TEST_ERROR", "Сервер вернул ошибку: ${e.message}")
                 Toast.makeText(this@MainActivity, "Ошибка сервера: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
+    }
+    private fun showResultDialog(processedText: String) {
+        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        builder.setTitle("Результат распознавания")
+
+        if (processedText.isEmpty()) {
+            builder.setMessage("Нейросеть не смогла разобрать текст на изображении.")
+        } else {
+            builder.setMessage(processedText)
+        }
+
+        builder.setPositiveButton("Отлично") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 }
