@@ -80,6 +80,10 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+        val recyclerView = findViewById<RecyclerView>(R.id.archiveRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        val emptyAdapter = ArchiveAdapter(emptyList(), onDeleteClick = {}, onItemClick = {})
+        recyclerView.adapter = emptyAdapter
     }
 
     private fun getFileFromAssets(fileName: String): File? {
@@ -172,7 +176,8 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body() != null) {
                     setupRecyclerView(response.body()!!)
                 } else {
-                    Toast.makeText(this@MainActivity, "Ошибка загрузки архива", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Ошибка архива! Код ответа сервера: ${response.code()}", Toast.LENGTH_LONG).show()
+                    Log.e("SCRIPT_DB_ERR", "Ошибка загрузки: ${response.code()} - ${response.errorBody()?.string()}")
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@MainActivity, "Ошибка сети: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -183,7 +188,7 @@ class MainActivity : AppCompatActivity() {
     // Настройка списка отображения (RecyclerView) и обработка удаления
     private fun setupRecyclerView(list: List<UserText>) {
         val recyclerView = findViewById<RecyclerView>(R.id.archiveRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        (recyclerView.adapter as? ArchiveAdapter)?.updateList(list)
 
         val prefs = getSharedPreferences("auth", MODE_PRIVATE)
         val token = prefs.getString("token", "") ?: ""
