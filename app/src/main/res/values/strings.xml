@@ -28,4 +28,10 @@
     <string name="Scan">Сканировать конспект</string>
     <string name="CamIco">Иконка камеры</string>
     <string name="scripto">Scripto</string>
+    <string name="Voice">Озвучить</string>
+    <string name="Delete">Удалить</string>
+    <string name="date">17.05.2026</string>
+    <string name="Scanname">Название скана</string>
+    <string name="Main">Главная</string>
+    <string name="Archive">Архив</string>
 </resources>

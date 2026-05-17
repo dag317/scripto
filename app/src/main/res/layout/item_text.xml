@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/textTitle"
-            android:text="Название скана"
+            android:text="@string/Scanname"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="#000000"
@@ -25,7 +25,7 @@
 
         <TextView
             android:id="@+id/textDate"
-            android:text="17.05.2026"
+            android:text="@string/date"
             android:textSize="12sp"
             android:textColor="#888888"
             android:layout_below="@id/textTitle"
@@ -42,6 +42,18 @@
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:src="@android:drawable/ic_menu_delete"
             app:tint="#EF4444"
-            android:contentDescription="Удалить" />
+            android:contentDescription="@string/Delete" />
+
+        <ImageButton
+            android:id="@+id/speakBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_toStartOf="@id/deleteBtn"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="8dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_lock_silent_mode_off"
+            app:tint="#3B82F6"
+            android:contentDescription="@string/Voice" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

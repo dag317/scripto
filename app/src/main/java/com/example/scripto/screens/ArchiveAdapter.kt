@@ -12,13 +12,15 @@ import com.example.scripto.database.UserText
 class ArchiveAdapter(
     private var items: List<UserText>,
     private val onDeleteClick: (UserText) -> Unit,
-    private val onItemClick: (UserText) -> Unit
+    private val onItemClick: (UserText) -> Unit,
+    private val onSpeakClick: (UserText) -> Unit
 ) : RecyclerView.Adapter<ArchiveAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.textTitle)
         val date: TextView = view.findViewById(R.id.textDate)
         val deleteBtn: ImageButton = view.findViewById(R.id.deleteBtn)
+        val speakBtn: ImageButton = view.findViewById(R.id.speakBtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,10 +31,11 @@ class ArchiveAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         holder.title.text = item.title
-        holder.date.text = item.created_at.take(10) // Берем только дату ГГГГ-ММ-ДД
+        holder.date.text = item.created_at.take(10)
 
         holder.deleteBtn.setOnClickListener { onDeleteClick(item) }
         holder.itemView.setOnClickListener { onItemClick(item) }
+        holder.speakBtn.setOnClickListener { onSpeakClick(item) }
     }
 
     override fun getItemCount() = items.size
