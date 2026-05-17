@@ -5,6 +5,9 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 
 data class ForgotPasswordRequest(
     val email: String)
@@ -17,6 +20,11 @@ data class ResetPasswordRequest(
 
 data class LoginResponse(
     val token: String
+)
+
+data class OcrResponse(
+    val raw_text: String,
+    val corrected_text: String
 )
 
 data class RegisterResponse(
@@ -60,4 +68,10 @@ interface ApiService {
     fun getProfile(
         @Header("Authorization") token: String
     ): Call<ApiResponse>
+
+    @Multipart
+    @POST("auth/ocr")
+    suspend fun uploadOcrImage(
+        @Part file: MultipartBody.Part
+    ): OcrResponse
 }

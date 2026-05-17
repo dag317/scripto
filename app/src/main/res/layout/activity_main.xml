@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://android.com"
     android:orientation="vertical"
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#201E28">
+    android:background="#FFFFFF"
+    android:padding="24dp">
 
+    <!-- Название приложения сверху -->
     <TextView
-        android:text="Главный экран"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
-        android:layout_marginBottom="20dp"
+        android:text="Scripto"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:layout_marginBottom="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <!-- Большой визуальный блок с иконкой фотоаппарата -->
+    <ImageView
+        android:id="@+id/cameraIcon"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="50dp"
+        android:contentDescription="Иконка камеры"
+        android:src="@android:drawable/ic_menu_camera"
+        app:tint="#000000" />
+
+    <!-- Главная синяя кнопка для запуска OCR сканирования -->
+    <Button
+        android:id="@+id/scanBtn"
+        android:text="Сканировать конспект"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3B82F6"
+        android:paddingVertical="14dp"
+        android:paddingHorizontal="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cornerRadius="8dp"/>
+
+    <!-- Кнопка выхода, оформленная в виде стильной минималистичной ссылки -->
     <Button
         android:id="@+id/logoutBtn"
-        android:text="Выйти"
+        android:text="Выйти из аккаунта"
+        android:textSize="14sp"
+        android:textColor="#EF4444"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
 </LinearLayout>

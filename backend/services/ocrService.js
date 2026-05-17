@@ -3,13 +3,27 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const IAM_TOKEN = process.env.YANDEX_IAM_TOKEN;
+const OAUTH_TOKEN = process.env.YANDEX_OAUTH_TOKEN;
 const FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 const GPT_API_KEY = process.env.YANDEX_GPT_API_KEY;
 
+const getFreshIamToken = async () => {
+  try {
+    const response = await axios.post('https://yandex.net', {
+      yandexPassportOauthToken: OAUTH_TOKEN
+    });
+    return response.data.iamToken;
+  } catch (error) {
+    console.error("Ошибка получения IAM токена:", error.response?.data || error.message);
+    throw new Error("Не удалось авторизоваться в Yandex Cloud");
+  }
+};
+
 export const recognizeHandwrittenText = async (imageBuffer) => {
-  const OCR_URL = "https://ocr.api.cloud.yandex.net/ocr/v1/recognizeText";
+  const OCR_URL = "https://yandex.net";
   
+  const iamToken = await getFreshIamToken();
+
   const contentBase64 = imageBuffer.toString("base64");
 
   const payload = {
@@ -22,7 +36,7 @@ export const recognizeHandwrittenText = async (imageBuffer) => {
   const response = await axios.post(OCR_URL, payload, {
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${IAM_TOKEN}`,
+      "Authorization": `Bearer ${iamToken}`,
       "x-folder-id": FOLDER_ID
     }
   });
@@ -34,23 +48,14 @@ export const correctOcrText = async (text) => {
   const GPT_URL = "https://yandex.net";
 
   const prompt = `
-  Ниже находится текст после OCR распознавания рукописного русского текста.
-
-  Текст содержит:
-  - ошибки OCR
-  - неправильные переносы строк
-  - дубликаты
-  - разорванные фразы
-
+  Ниже находится text после OCR распознавания рукописного русского текста.
+  Текст содержит: ошибки OCR, неправильные переносы строк, дубликаты, разорванные фразы.
   Твоя задача:
   1. восстановить естественный русский текст
   2. объединить строки в нормальные предложения
   3. удалить дубликаты
   4. исправить очевидные OCR ошибки
-
-  Ничего не выдумывай.
-  Верни только итоговый исправленный текст.
-
+  Ничего не выдумывай. Верни только итоговый исправленный текст.
   OCR текст:
   ${text}
   `;
