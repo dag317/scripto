@@ -1,5 +1,6 @@
 import express from 'express';
 import multer from 'multer';
+import textRoutes from './textRoutes.js';
 import { processOcr } from '../controllers/ocrController.js';
 import { mainScreen, register, login, forgotPassword, verifyOtp, resetPassword, verifyEmail, googleAuth } from "../controllers/authController.js";
 
@@ -15,5 +16,6 @@ router.get("/verify", verifyEmail);
 router.post('/google', googleAuth);
 
 router.post('/ocr', upload.single('file'), processOcr);
+router.use('/api/texts', textRoutes); 
 
 export default router;
