@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -22,9 +23,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import android.os.Build
-import android.view.View
-import androidx.core.content.ContextCompat
+import android.graphics.Color
+
 class AuthActivity : AppCompatActivity() {
+
     private fun sendGoogleTokenToBackend(idToken: String) {
         // ВАЖНО: Тебе нужно добавить в ApiService метод googleLogin(body: Map<String, String>)
         val requestBody = mapOf("idToken" to idToken)
@@ -36,22 +38,41 @@ class AuthActivity : AppCompatActivity() {
                     getSharedPreferences("auth", MODE_PRIVATE).edit {
                         putString("token", token)
                     }
-                    Toast.makeText(this@AuthActivity, "Вход через Google успешен", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AuthActivity,
+                        "Вход через Google успешен",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     startActivity(Intent(this@AuthActivity, MainActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(this@AuthActivity, "Ошибка сервера при входе Google", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AuthActivity,
+                        "Ошибка сервера при входе Google",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                Toast.makeText(this@AuthActivity, "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AuthActivity, "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
+
+        // Настройка для Android 16 (API 23+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Устанавливаем белый фон статус‑бара
+            window.statusBarColor = Color.WHITE
+
+            // Делаем иконки статус‑бара тёмными (видимыми на белом фоне)
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
 
         val userEmail: EditText = findViewById(R.id.userEmailLogin)
         val userPassword: EditText = findViewById(R.id.userPasswordLogin)
@@ -61,35 +82,41 @@ class AuthActivity : AppCompatActivity() {
         val forgotPassword: TextView = findViewById(R.id.forgotPassword)
         val prefs = getSharedPreferences("auth", MODE_PRIVATE)
         val token = prefs.getString("token", null)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken("365323608098-a9du3snf98ovv5eqbmpspivo9l4un0vh.apps.googleusercontent.com").requestEmail().build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("365323608098-a9du3snf98ovv5eqbmpspivo9l4un0vh.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
         val googleSignInClient = GoogleSignIn.getClient(this, gso)
-        val googleLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = account?.idToken
+        val googleLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    val idToken = account?.idToken
 
-                if (idToken != null) {
-                    sendGoogleTokenToBackend(idToken)
-                } else {
-                    // Ошибка: токен пустой
-                    Log.e("GOOGLE_DEBUG", "idToken is NULL")
-                    Toast.makeText(this, "Google не выдал токен", Toast.LENGTH_SHORT).show()
+                    if (idToken != null) {
+                        sendGoogleTokenToBackend(idToken)
+                    } else {
+                        // Ошибка: токен пустой
+                        Log.e("GOOGLE_DEBUG", "idToken is NULL")
+                        Toast.makeText(this, "Google не выдал токен", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: ApiException) {
+                    // --- ВОТ СЮДА ВСТАВЛЯЕМ ДИАГНОСТИКУ ---
+                    val statusCode = e.statusCode
+                    val message = e.message
+
+                    // 1. Вывод в консоль (Logcat)
+                    Log.e("GOOGLE_DEBUG", "Код ошибки: $statusCode")
+                    Log.e("GOOGLE_DEBUG", "Сообщение: $message")
+                    e.printStackTrace()
+
+                    // 2. Вывод на экран телефона
+                    Toast.makeText(this, "Ошибка Google ($statusCode): $message", Toast.LENGTH_LONG)
+                        .show()
                 }
-            } catch (e: ApiException) {
-                // --- ВОТ СЮДА ВСТАВЛЯЕМ ДИАГНОСТИКУ ---
-                val statusCode = e.statusCode
-                val message = e.message
-
-                // 1. Вывод в консоль (Logcat)
-                Log.e("GOOGLE_DEBUG", "Код ошибки: $statusCode")
-                Log.e("GOOGLE_DEBUG", "Сообщение: $message")
-                e.printStackTrace()
-
-                // 2. Вывод на экран телефона
-                Toast.makeText(this, "Ошибка Google ($statusCode): $message", Toast.LENGTH_LONG).show()
             }
-        }
+
         if (token != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -109,43 +136,58 @@ class AuthActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RetrofitClient.api.login(LoginRequest(email, password)).enqueue(object : Callback<LoginResponse> {
-                override fun onResponse(
-                    call: Call<LoginResponse>,
-                    response: Response<LoginResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@AuthActivity, "Успешный вход", Toast.LENGTH_SHORT).show()
-                        val token = response.body()?.token
-
-                        val prefs = getSharedPreferences("auth", MODE_PRIVATE)
-                        prefs.edit { putString("token", token) } // Используем apply() или edit { ... }
-
-                        val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        // 1. Читаем текст ошибки
-                        val errorText = response.errorBody()?.string() ?: ""
-
-                        // 2. Проверяем конкретную фразу, которую кидает бэкенд
-                        if (errorText.contains("Please verify your email first")) {
-                            android.app.AlertDialog.Builder(this@AuthActivity)
-                                .setTitle("Почта не подтверждена")
-                                .setMessage("Мы отправили ссылку на ваш email. Пожалуйста, подтвердите его перед входом.")
-                                .setPositiveButton("ОК", null)
+            RetrofitClient.api.login(LoginRequest(email, password))
+                .enqueue(object : Callback<LoginResponse> {
+                    override fun onResponse(
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@AuthActivity, "Успешный вход", Toast.LENGTH_SHORT)
                                 .show()
+                            val token = response.body()?.token
+
+                            val prefs = getSharedPreferences("auth", MODE_PRIVATE)
+                            prefs.edit {
+                                putString(
+                                    "token",
+                                    token
+                                )
+                            } // Используем apply() или edit { ... }
+
+                            val intent = Intent(this@AuthActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
                         } else {
-                            // Если почта подтверждена, но данные неверные
-                            Toast.makeText(this@AuthActivity, "Неверный email или пароль", Toast.LENGTH_SHORT).show()
+                            // 1. Читаем текст ошибки
+                            val errorText = response.errorBody()?.string() ?: ""
+
+                            // 2. Проверяем конкретную фразу, которую кидает бэкенд
+                            if (errorText.contains("Please verify your email first")) {
+                                android.app.AlertDialog.Builder(this@AuthActivity)
+                                    .setTitle("Почта не подтверждена")
+                                    .setMessage("Мы отправили ссылку на ваш email. Пожалуйста, подтвердите его перед входом.")
+                                    .setPositiveButton("ОК", null)
+                                    .show()
+                            } else {
+                                // Если почта подтверждена, но данные неверные
+                                Toast.makeText(
+                                    this@AuthActivity,
+                                    "Неверный email или пароль",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
-                }
 
-                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Toast.makeText(this@AuthActivity, "Ошибка сети: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
+                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        Toast.makeText(
+                            this@AuthActivity,
+                            "Ошибка сети: ${t.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
         }
 
         linkToReg.setOnClickListener {
