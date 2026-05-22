@@ -21,7 +21,9 @@ import androidx.core.content.edit
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-
+import android.os.Build
+import android.view.View
+import androidx.core.content.ContextCompat
 class AuthActivity : AppCompatActivity() {
     private fun sendGoogleTokenToBackend(idToken: String) {
         // ВАЖНО: Тебе нужно добавить в ApiService метод googleLogin(body: Map<String, String>)
