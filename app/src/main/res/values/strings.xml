@@ -38,4 +38,5 @@
     <string name="todo">TODO</string>
     <string name="stepbackstr">❮ назад</string>
     <string name="forgpass">Забыли пароль?↗</string>
+    <string name="todo1">TODO</string>
 </resources>

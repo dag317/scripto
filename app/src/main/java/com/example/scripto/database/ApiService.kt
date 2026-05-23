@@ -12,7 +12,8 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 
 data class ForgotPasswordRequest(
-    val email: String)
+    val email: String?
+)
 data class VerifyOtpRequest(
     val email: String?,
     val code: String)
