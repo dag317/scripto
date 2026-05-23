@@ -35,4 +35,7 @@
     <string name="Main">Главная</string>
     <string name="Archive">Архив</string>
     <string name="tvoypo">Твой почерк понятен всем</string>
+    <string name="todo">TODO</string>
+    <string name="stepbackstr">❮ назад</string>
+    <string name="forgpass">Забыли пароль?↗</string>
 </resources>
