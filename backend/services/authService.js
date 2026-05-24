@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { db } from '../config/db.js'
 import { findUserByEmail, createUser, setUserVerified } from '../models/userModel.js';
 import { sendVerificationEmail } from './mailService.js';
 import { OAuth2Client } from 'google-auth-library';
@@ -41,14 +42,17 @@ export const registerUser = async (email, password) => {
   if (existingUser) throw new Error('User already exists');
 
   const hash = await bcrypt.hash(password, 10);
-  
   const verificationToken = jwt.sign({ email }, EMAIL_SECRET, { expiresIn: '1d' });
-
   const userId = await createUser(email, hash, verificationToken);
   
-  await sendVerificationEmail(email, verificationToken);
-
-  return userId;
+  try {
+    await sendVerificationEmail(email, verificationToken);
+    return userId;
+  } catch (error) {
+    console.error(`[Регистрация] Ошибка отправки письма для ${email}: ${error.message}`);
+    await db.query('DELETE FROM users WHERE id = ?', [userId]);
+    throw new Error('Не удалось отправить письмо подтверждения. Попробуйте еще раз.');
+  }
 };
 
 export const confirmEmail = async (token) => {
