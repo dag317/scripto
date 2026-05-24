@@ -1,15 +1,16 @@
 package com.example.scripto.screens
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.scripto.R
-import com.example.scripto.database.ApiResponse
 import com.example.scripto.database.RegisterRequest
 import com.example.scripto.database.RegisterResponse
 import com.example.scripto.database.RetrofitClient
@@ -17,6 +18,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +28,8 @@ class RegisterActivity : ComponentActivity() {
         val userPassword: EditText = findViewById(R.id.userPasswordReg)
         val registerButton: Button = findViewById(R.id.buttonRegister)
         val linkToAuth: TextView = findViewById(R.id.linkToAuth)
-
+        window.statusBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         registerButton.setOnClickListener {
             val email = userEmail.text.toString().trim()
             val password = userPassword.text.toString().trim()
@@ -60,7 +63,7 @@ class RegisterActivity : ComponentActivity() {
                         val errorText = response.errorBody()?.string() ?: ""
 
                         if (response.code() == 400 && errorText.contains("User already exists")) {
-                            userEmail.setError("Почта уже занята")
+                            userEmail.error = "Почта уже занята"
                         } else {
                             Toast.makeText(this@RegisterActivity, "Ошибка: $errorText", Toast.LENGTH_SHORT).show()
                         }

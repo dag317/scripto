@@ -1,30 +1,34 @@
 package com.example.scripto.screens
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import com.example.scripto.R
 import com.example.scripto.database.LoginRequest
 import com.example.scripto.database.LoginResponse
 import com.example.scripto.database.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import androidx.core.content.edit
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import android.os.Build
-import android.graphics.Color
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class AuthActivity : AppCompatActivity() {
 
     private fun sendGoogleTokenToBackend(idToken: String) {
@@ -67,10 +71,8 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.statusBarColor = Color.WHITE
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
+        window.statusBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
         val userEmail: EditText = findViewById(R.id.userEmailLogin)
         val userPassword: EditText = findViewById(R.id.userPasswordLogin)
@@ -168,11 +170,18 @@ class AuthActivity : AppCompatActivity() {
                             val errorText = response.errorBody()?.string() ?: ""
 
                             if (errorText.contains("Please verify your email first")) {
-                                android.app.AlertDialog.Builder(this@AuthActivity)
+                                val builder = android.app.AlertDialog.Builder(this@AuthActivity)
                                     .setTitle("Почта не подтверждена")
                                     .setMessage("Мы отправили ссылку на ваш email. Пожалуйста, подтвердите его перед входом.")
                                     .setPositiveButton("ОК", null)
-                                    .show()
+
+                                val dialog = builder.create()
+                                dialog.show()
+
+                                // Сразу после показа диалога меняем цвет текста кнопки
+                                dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.setTextColor(
+                                    ContextCompat.getColor(this@AuthActivity, android.R.color.black)
+                                )
                             } else {
                                 Toast.makeText(
                                     this@AuthActivity,
@@ -180,6 +189,7 @@ class AuthActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+
                         }
                     }
 

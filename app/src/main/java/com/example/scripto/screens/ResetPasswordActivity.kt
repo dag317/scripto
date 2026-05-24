@@ -1,7 +1,9 @@
 package com.example.scripto.screens
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,18 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.scripto.R
 import com.example.scripto.database.ApiResponse
 import com.example.scripto.database.OtpSession
-import com.example.scripto.database.RetrofitClient
 import com.example.scripto.database.ResetPasswordRequest
+import com.example.scripto.database.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class ResetPasswordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reset_password)
-
+        window.statusBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         val pass = findViewById<EditText>(R.id.newPassword)
         val confirm = findViewById<EditText>(R.id.confirmPassword)
         val saveButton = findViewById<Button>(R.id.saveBtn)
