@@ -24,4 +24,4 @@
 4. Нажать Run 'app'
 
 ## Ссылки
-- ...
+- - Макеты Figma: https://www.figma.com/design/LmuHHE8tS4Cm4I4LLIPDs5/Scripto_1?m=auto&t=xcfiUfVGcSFDhOEa-1
